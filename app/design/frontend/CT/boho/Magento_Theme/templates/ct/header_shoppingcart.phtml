@@ -1,0 +1,22 @@
+<?php
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$cart = $_objectManager->get('\Magento\Checkout\Model\Cart');
+$subTotal = $cart->getQuote()->getSubtotal();
+?>
+<div class="header_shopping_cart">
+    <a href="<?php echo $block->getUrl('checkout/cart', ['_secure' => true]); ?>">
+        <img src="<?php echo $mediaUrl . "wysiwyg/cart_bag.png"; ?>" alt="image not found" />
+        <span class="cart_subtotal">
+            <?php
+            if (isset($subTotal)) {
+                echo round($subTotal, 2);
+            } else {
+                echo "$0.00";
+            }
+            ?>
+        </span>
+    </a>
+</div>

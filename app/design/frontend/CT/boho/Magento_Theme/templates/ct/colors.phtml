@@ -1,0 +1,31 @@
+<div class="boho_chick_colors_attribute">
+    <?php
+    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $_product = $_objectManager->get('Magento\Framework\Registry')->registry('current_product');
+
+
+    /* Display All Colours Of the Site Used Start */
+//$_product = $block->getProduct();
+    $id = $_product->getId();
+    $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($id);
+    $customOptions = $_objectManager->get('Magento\Catalog\Model\Product\Option')->getProductOptionCollection($product);
+    $productTypeInstance = $_objectManager->get('Magento\ConfigurableProduct\Model\Product\Type\Configurable');
+    $productAttributeOptions = $productTypeInstance->getConfigurableAttributesAsArray($product);
+
+    echo "<span class='attribute_title'>Colors: </span>";
+
+    foreach ($productAttributeOptions as $pro_op) {
+        $count = count($pro_op['values']);
+        $c = 0;
+        foreach ($pro_op['values'] as $p) {
+            echo $p['label'];
+            $c++;
+            if ($count > $c) {
+                echo ",";
+            }
+        }
+    }
+
+    /* Display All Colours Of the Site Used End */
+    ?>
+</div>
